@@ -39,6 +39,6 @@ jobs:
     steps:
       - name: fetching prod env vars
         run: |
-         echo "fetch prod ev ${{vars.MY_PROD_KEY}}
+         echo "fetch prod ev ${{vars.MY_PROD_KEY}}"
            
       
