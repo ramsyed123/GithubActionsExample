@@ -1,0 +1,37 @@
+name: context and vars 
+on:
+ push:
+env:
+ ON_LEVEL_KEY: "onlevel"
+jobs:
+  viewcontext:
+    runs-on: ubuntu-latest
+    env:
+     JOB_LEVEL_KEY: "jobkey"
+    steps:
+      - name: using all github contexts to use
+        run: |
+         echo "execute ${{github.actor}}"
+         echo "execute ${{github.action_status}}"
+         echo "execute ${{github.head_ref}}"
+         echo "execute ${{github.repository_owner}}"
+         echo "execute ${{github.repositoryUrl}}"
+         echo "execute ${{github.retention_days}}"
+         echo "execute ${{github.token}}"
+         echo "execute ${{github.workflow_ref}}"
+         echo "execute ${{github.workflow_sha}}"
+         echo "execute ${{github.workspace}}"
+      - name: export my_var
+        run: |
+         echo "on level key ${{env.ON_LEVEL_KEY}}"
+         echo "job level key ${{env.JOB_LEVEL_KEY}}"
+         echo "variables key ${{vars.MY_VAR}}"
+  echo-stag:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps: 
+       - name: Print staging variable 
+         run: |
+           echo  "Environment variable is: ${{vars.TARGET_VAR }}"    
+           
+      
