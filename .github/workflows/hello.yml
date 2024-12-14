@@ -7,6 +7,5 @@ jobs:
     steps: 
      - run: echo "hello"
      - run: echo "world"
-     - name: Delete GitHub Actions cache
-       uses: ramsyed123/delete-action-cache@main
+    
  
