@@ -1,0 +1,10 @@
+name: workflow
+on:
+ workflow_dispatch:
+
+jobs:
+  work:
+    runs-on: ubuntu-latest
+    steps:
+      - name: display workflow dispatch
+        run: echo "display ${{github.event_name}}
