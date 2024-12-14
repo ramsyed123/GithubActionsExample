@@ -5,6 +5,7 @@ on:
 jobs:
   work:
     runs-on: ubuntu-latest
-    steps:
+    steps: |
       - name: display workflow dispatch
         run: echo "display ${{github.event_name}}"
+        run: echo "display ${{github.run_id}}"
