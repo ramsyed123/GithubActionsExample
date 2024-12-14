@@ -40,5 +40,14 @@ jobs:
       - name: fetching prod env vars
         run: |
          echo "fetch prod ev ${{vars.MY_PROD_KEY}}"
+  prodsecrets:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: fetch secrets
+        run: |
+           echo "access secrets are ${{secrets.ACCESS_KEY}}"
+           echo "aws secrets are ${{secrets.SECRET_KEY}}"     
+    
            
       
