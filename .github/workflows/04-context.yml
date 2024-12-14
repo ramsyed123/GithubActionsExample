@@ -32,6 +32,13 @@ jobs:
     steps: 
        - name: Print staging variable 
          run: |
-           echo  "Environment variable is: ${{vars.TARGET_VAR }}"    
+           echo  "Environment variable is: ${{vars.TARGET_VAR }}"   
+  prodjob:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: fetching prod env vars
+        run: |
+         echo "fetch prod ev ${{vars.MY_PROD_KEY}}
            
       
