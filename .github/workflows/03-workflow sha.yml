@@ -8,5 +8,5 @@ jobs:
     steps:
       - name: display sha
         run: |
-         echo "display sha ${{github.sha}}
+         echo "display sha ${{github.sha}}"
    
