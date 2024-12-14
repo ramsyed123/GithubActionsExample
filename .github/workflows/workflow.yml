@@ -1,6 +1,6 @@
 name: runner id workflow
 on:
- workflow_dispatch:
+ push:
 
 jobs:
   work:
