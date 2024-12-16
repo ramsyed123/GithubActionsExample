@@ -1,0 +1,46 @@
+name: deploy nodejs application 
+
+on:
+    push
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
+            - name: setup node.js
+              uses: actions/setup-node@v2
+              with:
+                node-version: "14"
+            - name: install dependencies
+              run: npm install
+            - name: run tests
+              run: npm test
+            - name: build docker image
+              run: docker build -t my-app .
+            - name: login to ecr
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+            - name: push docker image to ecr
+              run: |
+                docker tag my-app:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
+                docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Update kubeconfig
+              run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name my-cluster
+
+            - name: Update Kubernetes deployment
+              run: |
+                  kubectl set image deployment/my-app-deployment my-app-container=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
